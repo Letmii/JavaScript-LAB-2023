@@ -8,7 +8,7 @@ const wyniki = document.getElementById('wyniki');
 
 // Obsługa zdarzenia po kliknięciu przycisku "Przelicz"
 przeliczBtn.addEventListener('click', () => {
-  // Pobierz wartości z pól tekstowych i przekształć je na liczby
+  // Pobieranie wartości z pól tekstowych i przekształcenie na liczby
   const value1 = parseFloat(liczba1.value);
   const value2 = parseFloat(liczba2.value);
   const value3 = parseFloat(liczba3.value);
