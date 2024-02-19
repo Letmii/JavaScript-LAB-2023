@@ -1,20 +1,17 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Ustawienie elementu canvas i jego kontekstu 2D.
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
   canvas.width = 800;
   canvas.height = 600;
 
-  // Funkcja tworząca obiekt reprezentujący kulę.
   function createBall() {
       return {
-          radius: 5, // Promień kuli.
-          x: Math.random() * canvas.width, // Losowa pozycja początkowa X.
-          y: Math.random() * canvas.height, // Losowa pozycja początkowa Y.
-          speedX: (Math.random() - 0.5) * 4, // Losowa prędkość początkowa X.
-          speedY: (Math.random() - 0.5) * 4, // Losowa prędkość początkowa Y.
+          radius: 5,
+          x: Math.random() * canvas.width,
+          y: Math.random() * canvas.height,
+          speedX: (Math.random() - 0.5) * 4,
+          speedY: (Math.random() - 0.5) * 4,
           draw: function() {
-              // Metoda rysująca kulę na canvas.
               ctx.beginPath();
               ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
               ctx.fillStyle = 'blue';
@@ -22,11 +19,9 @@ document.addEventListener('DOMContentLoaded', () => {
               ctx.closePath();
           },
           update: function() {
-              // Metoda aktualizująca pozycję kuli.
               this.x += this.speedX;
               this.y += this.speedY;
 
-              // Odbijanie kuli od krawędzi canvas.
               if (this.x <= this.radius || this.x >= canvas.width - this.radius) {
                   this.speedX = -this.speedX;
               }
@@ -37,13 +32,11 @@ document.addEventListener('DOMContentLoaded', () => {
       };
   }
 
-  // Tworzenie początkowej tablicy kulek.
   let balls = [];
   for (let i = 0; i < 20; i++) {
       balls.push(createBall());
   }
 
-  // Funkcja rysująca linię między dwiema bliskimi kulkami.
   function drawLineIfClose(ball1, ball2, threshold) {
       const dx = ball1.x - ball2.x;
       const dy = ball1.y - ball2.y;
@@ -52,54 +45,46 @@ document.addEventListener('DOMContentLoaded', () => {
           ctx.beginPath();
           ctx.moveTo(ball1.x, ball1.y);
           ctx.lineTo(ball2.x, ball2.y);
-          ctx.strokeStyle = 'rgba(0,0,0,0.1)'; // Kolor i przezroczystość linii.
+          ctx.strokeStyle = 'rgba(0,0,0,0.1)';
           ctx.stroke();
       }
   }
 
-  // Zmienna przechowująca identyfikator bieżącej animacji.
   let animationFrameId;
 
-  // Funkcja animująca ruch kulek.
   function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height); // Czyszczenie canvas.
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Rysowanie i aktualizacja każdej kuli.
       balls.forEach(ball => {
           ball.draw();
           ball.update();
       });
 
-      // Rysowanie linii między bliskimi kulkami.
       for (let i = 0; i < balls.length; i++) {
           for (let j = i + 1; j < balls.length; j++) {
-              drawLineIfClose(balls[i], balls[j], 100); // Określenie odległości dla linii.
+              drawLineIfClose(balls[i], balls[j], 100);
           }
       }
 
-      // Zaplanowanie kolejnej klatki animacji.
       animationFrameId = requestAnimationFrame(animate);
   }
 
-  // Funkcja obsługująca rozpoczęcie animacji.
   function startAnimation() {
       if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId); // Anulowanie bieżącej animacji, jeśli jest aktywna.
+          cancelAnimationFrame(animationFrameId);
       }
-      animationFrameId = requestAnimationFrame(animate); // Rozpoczęcie nowej animacji.
+      animationFrameId = requestAnimationFrame(animate);
   }
 
-  // Funkcja obsługująca resetowanie i restartowanie animacji.
   function resetAnimation() {
       if (animationFrameId) {
-          cancelAnimationFrame(animationFrameId); // Anulowanie bieżącej animacji.
+          cancelAnimationFrame(animationFrameId);
           animationFrameId = null;
       }
-      balls = balls.map(() => createBall()); // Resetowanie stanu kulek.
-      animationFrameId = requestAnimationFrame(animate); // Rozpoczęcie nowej animacji.
+      balls = balls.map(() => createBall());
+      animationFrameId = requestAnimationFrame(animate);
   }
 
-  // Obsługa zdarzeń start i reset.
   document.getElementById('startButton').addEventListener('click', startAnimation);
   document.getElementById('resetButton').addEventListener('click', resetAnimation);
 });
