@@ -21,7 +21,7 @@
     color: white;
     border: none;
     cursor: pointer;
-    transition: width 1s ease, background 1s ease;
+    transition: width 1s ease;
 }
 
 #right {
