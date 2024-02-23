@@ -1,22 +1,21 @@
 document.addEventListener('DOMContentLoaded', () => {
   const canvas = document.getElementById('canvas');
   const ctx = canvas.getContext('2d');
-  canvas.width = 800;
-  canvas.height = 600;
+  canvas.width = 850;
+  canvas.height = 700;
 
   function createBall() {
       return {
-          radius: 5,
+          radius: 8,
           x: Math.random() * canvas.width,
           y: Math.random() * canvas.height,
-          speedX: (Math.random() - 0.5) * 4,
-          speedY: (Math.random() - 0.5) * 4,
+          speedX: (Math.random() - 0.5) * 3,
+          speedY: (Math.random() - 0.5) * 3,
           draw: function() {
               ctx.beginPath();
               ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-              ctx.fillStyle = 'blue';
+              ctx.fillStyle = 'red';
               ctx.fill();
-              ctx.closePath();
           },
           update: function() {
               this.x += this.speedX;
